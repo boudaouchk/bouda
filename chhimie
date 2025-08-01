@@ -1,0 +1,58 @@
+import random
+
+# Liste d'ingrédients avec propriétés simulées
+INGREDIENTS = [
+    {"nom": "Aloe Vera", "pH": 6.0, "texture": 2, "coût": 0.1},
+    {"nom": "Huile d'argan", "pH": 5.5, "texture": 5, "coût": 0.3},
+    {"nom": "Eau florale", "pH": 7.0, "texture": 1, "coût": 0.05},
+    {"nom": "Cire d'abeille", "pH": 6.5, "texture": 6, "coût": 0.2},
+    {"nom": "Acide hyaluronique", "pH": 5.0, "texture": 3, "coût": 0.5},
+]
+
+# Paramètres de contraintes
+CIBLE_PH = (5.0, 7.0)
+TEXTURE_VISEE = 3  # de 1 (fluide) à 6 (épais)
+COUT_MAX = 1.0
+
+# Générer une formulation aléatoire
+def generate_formulation():
+    return random.sample(INGREDIENTS, k=random.randint(2, 4))
+
+# Évaluer la "formulation" sur nos critères
+def fitness(formulation):
+    pH_moyen = sum(ing["pH"] for ing in formulation) / len(formulation)
+    texture_moy = sum(ing["texture"] for ing in formulation) / len(formulation)
+    cout_total = sum(ing["coût"] for ing in formulation)
+
+    # Écart aux contraintes (plus c’est petit, mieux c’est)
+    penalite_ph = abs((CIBLE_PH[0] + CIBLE_PH[1]) / 2 - pH_moyen)
+    penalite_texture = abs(TEXTURE_VISEE - texture_moy)
+    penalite_cout = max(0, cout_total - COUT_MAX)
+
+    # Score = somme des pénalités (moins = mieux)
+    score = penalite_ph + penalite_texture + penalite_cout
+    return score
+
+# Générateur intelligent (recherche aléatoire simplifiée ici)
+def run_optimisation(iterations=1000):
+    best_score = float("inf")
+    best_formulation = None
+
+    for _ in range(iterations):
+        formulation = generate_formulation()
+        score = fitness(formulation)
+
+        if score < best_score:
+            best_score = score
+            best_formulation = formulation
+
+    return best_formulation, best_score
+
+# Exécution
+formulation_opt, score = run_optimisation()
+
+print("\n💡 Formulation optimale trouvée :")
+for ing in formulation_opt:
+    print(f"- {ing['nom']}")
+
+print(f"Score final : {score:.4f}")
