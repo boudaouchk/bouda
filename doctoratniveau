@@ -1,0 +1,55 @@
+Synthèse : Séries Chronologiques et Temporelles - Niveau Doctorat
+Auteur : Karim Boudaouch
+
+1. Notions fondamentales
+- Une série temporelle est une suite de valeurs observées au fil du temps : {Y_t}, t = 1,...,T
+- Objectif : modéliser, prédire, décomposer les effets (tendance, saisonnalité, bruit)
+
+2. Stationnarité
+- Stationnarité faible : moyenne, variance et auto-covariance constantes dans le temps
+- Test ADF (Augmented Dickey-Fuller), KPSS pour vérifier la stationnarité
+- Transformation pour stationnariser : différenciation, log, centrage
+
+3. Modèles ARIMA
+- AR (Auto-Regressive) : Y_t = phi_1 * Y_{t-1} + ... + phi_p * Y_{t-p} + e_t
+- MA (Moving Average) : Y_t = e_t + theta_1 * e_{t-1} + ... + theta_q * e_{t-q}
+- ARMA(p, q) : combinaison linéaire
+- ARIMA(p, d, q) : différenciation d'ordre d
+- SARIMA : ajout de composante saisonnière (P, D, Q, s)
+
+4. Estimation et diagnostic
+- Méthodes : Maximum de vraisemblance, Yule-Walker
+- Critères de sélection : AIC, BIC
+- Analyse des résidus : white noise ? autocorrélation ?
+- Fonctions ACF / PACF pour l’identification des modèles
+
+5. Séries saisonnières et décomposition
+- Composantes : Tendance (T), Saison (S), Résidu (R)
+- Modèles : additif (Y = T + S + R) ou multiplicatif (Y = T * S * R)
+- Méthodes : STL, X-12-ARIMA, Holt-Winters
+
+6. Modèles à hétéroscédasticité : ARCH et GARCH
+- ARCH(q) : Var(e_t | t-1) dépend des erreurs passées au carré
+- GARCH(p, q) : extension avec effets persistants
+- Application : modélisation de la volatilité en finance
+
+7. Modèles multivariés : VAR
+- VAR(p) : Y_t = A_1 * Y_{t-1} + ... + A_p * Y_{t-p} + e_t
+- Chaque variable est expliquée par son passé + celui des autres
+- Analyse de causalité de Granger, IRF, FEVD
+
+8. Prédiction
+- Forecast = extrapolation d’un modèle ajusté
+- Intervalle de prédiction à 95 %
+- Erreurs typiques : RMSE, MAPE, MAE
+
+9. En Python
+- statsmodels.tsa : ARIMA, SARIMA, VAR
+- arch : modèles ARCH/GARCH
+- pmdarima : auto_arima
+- prophet (Meta) : détection automatique des composantes
+- matplotlib, plotly : visualisation interactive
+
+Références clés :
+- Hamilton (1994) : Time Series Analysis
+- Brockwell & Davis (2016) : Introduction to Time Series and Forecasting
